@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "lint": "node --check scripts/main.js && node --check scripts/build.mjs"
+    "lint": "node --check scripts/main.js && node --check scripts/build.mjs && node --check scripts/validate.mjs && node --check scripts/prepare-release.mjs",
+    "validate": "node scripts/validate.mjs"
   },
   "devDependencies": {
     "archiver": "^7.0.1"
