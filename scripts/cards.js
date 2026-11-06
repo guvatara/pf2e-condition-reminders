@@ -109,6 +109,37 @@ export async function showCard(item, mode) {
   mount(html);
 }
 
+/**
+ * Ставим стек карточек рядом с панелью активных состояний:
+ * слева от неё, а если места нет — под ней. Если панель выключена,
+ * остаётся позиция по умолчанию из CSS (справа сверху).
+ */
+function positionCardsRoot(root) {
+  const panel = document.getElementById("pcr-panel");
+  if (!panel) {
+    root.style.left = "";
+    root.style.top = "";
+    root.style.right = "";
+    return;
+  }
+
+  const rect = panel.getBoundingClientRect();
+  const cardWidth = root.offsetWidth || 360;
+  const gap = 10;
+
+  root.style.right = "auto";
+  if (rect.left - gap - cardWidth >= 8) {
+    // Слева от панели
+    root.style.left = `${rect.left - gap - cardWidth}px`;
+    root.style.top = `${rect.top}px`;
+  } else {
+    // Под панелью (она у левого края)
+    const x = Math.max(8, Math.min(rect.left, window.innerWidth - cardWidth - 8));
+    root.style.left = `${x}px`;
+    root.style.top = `${Math.min(rect.bottom + gap, window.innerHeight - 80)}px`;
+  }
+}
+
 function mount(html) {
   let root = document.getElementById("pcr-root");
   if (!root) {
@@ -116,6 +147,8 @@ function mount(html) {
     root.id = "pcr-root";
     document.body.appendChild(root);
   }
+
+  positionCardsRoot(root);
 
   const tmp = document.createElement("div");
   tmp.innerHTML = html.trim();
