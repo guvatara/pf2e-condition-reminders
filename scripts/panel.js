@@ -65,6 +65,7 @@ function buildData() {
     title: game.i18n.localize("PF2E-CR.panel.title"),
     emptyLabel: game.i18n.localize("PF2E-CR.panel.empty"),
     reminderLabel: game.i18n.localize("PF2E-CR.panel.reminder"),
+    removeLabel: game.i18n.localize("PF2E-CR.panel.remove"),
   };
 }
 
@@ -95,6 +96,17 @@ function bindPanelEvents() {
       ev.stopPropagation();
       const item = await fromUuid(btn.dataset.uuid);
       if (item) showCard(item, "reminder");
+    });
+  });
+
+  panelRoot.querySelectorAll('[data-action="remove"]').forEach((btn) => {
+    btn.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      const item = await fromUuid(btn.dataset.uuid);
+      if (!item) return;
+      if (!item.isOwner && !game.user.isGM) return;
+      // Панель обновится сама по хуку deleteItem
+      await item.delete();
     });
   });
 }

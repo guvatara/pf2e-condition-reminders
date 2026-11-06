@@ -22,6 +22,10 @@
                 title="{{@root.reminderLabel}}">
           <i class="fa-solid fa-circle-info"></i>
         </button>
+        <button type="button" class="pcr-remove" data-action="remove" data-uuid="{{uuid}}"
+                title="{{@root.removeLabel}}">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </li>
       {{/each}}
     </ul>

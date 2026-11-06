@@ -251,7 +251,8 @@
   flex: 0 0 auto;
 }
 
-.pcr-remind {
+.pcr-remind,
+.pcr-remove {
   flex: 0 0 auto;
   width: 22px;
   height: 22px;
@@ -265,9 +266,14 @@
   line-height: 1;
 }
 
-.pcr-remind:hover {
+.pcr-remind:hover,
+.pcr-remove:hover {
   opacity: 1;
   box-shadow: none;
+}
+
+.pcr-remove:hover {
+  color: #ff8a80;
 }
 
 .pcr-empty {
