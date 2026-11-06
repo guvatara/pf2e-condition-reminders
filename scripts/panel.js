@@ -21,14 +21,25 @@ let updateTimer = null;
 /** Актёры, чьи состояния показываются в панели. */
 function relevantActors() {
   const withConditions = (a) =>
-    a.type !== "party" && a.type !== "loot" && actorConditions(a).length > 0;
+    a && a.type !== "party" && a.type !== "loot" && actorConditions(a).length > 0;
+  const visible = (a) => game.user.isGM || a.isOwner;
 
-  let actors;
-  if (game.user.isGM) {
-    actors = game.actors.filter(withConditions);
-  } else {
-    actors = game.actors.filter((a) => a.isOwner && withConditions(a));
+  const seen = new Set();
+  const actors = [];
+  const push = (a) => {
+    if (withConditions(a) && visible(a) && !seen.has(a.uuid)) {
+      seen.add(a.uuid);
+      actors.push(a);
+    }
+  };
+
+  for (const a of game.actors) push(a);
+
+  // Актёры несвязанных токенов не входят в game.actors — берём их со сцены
+  if (canvas?.ready) {
+    for (const token of canvas.tokens?.placeables ?? []) push(token.actor);
   }
+
   return actors.sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -171,4 +182,10 @@ export function initPanel() {
       if (item?.type === "condition") schedulePanelUpdate();
     });
   }
+
+  // Состав актёров на сцене/в мире изменился — состояния токенов тоже могли
+  for (const hook of ["createToken", "deleteToken", "createActor", "deleteActor"]) {
+    Hooks.on(hook, () => schedulePanelUpdate());
+  }
+  Hooks.on("canvasReady", () => schedulePanelUpdate());
 }

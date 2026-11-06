@@ -22,6 +22,9 @@ import { initPanel } from "./panel.js";
 /** uuid -> последнее известное значение валуированного состояния */
 const lastValues = new Map();
 
+/** uuid актёров, которые прямо сейчас удаляются (каскадное удаление состояний) */
+const deletingActors = new Set();
+
 /* ------------------------------------------------------------------------ */
 /*  Настройки                                                                */
 /* ------------------------------------------------------------------------ */
@@ -94,5 +97,25 @@ Hooks.on("updateItem", (item) => {
 Hooks.on("deleteItem", (item) => {
   if (!isPF2e() || !isConditionItem(item)) return;
   lastValues.delete(item.uuid);
+  // При удалении актёра состояния удаляются каскадом — карточки «спало» не нужны
+  if (deletingActors.has(item.parent?.uuid)) return;
   if (game.settings.get(MODULE_ID, "notifyEnd")) showCard(item, "ended");
+});
+
+// Отслеживаем удаление актёров, чтобы отличить каскад от обычного снятия
+Hooks.on("preDeleteActor", (actor) => {
+  deletingActors.add(actor.uuid);
+});
+Hooks.on("deleteActor", (actor) => {
+  setTimeout(() => deletingActors.delete(actor.uuid), 1000);
+});
+
+// То же для несвязанных токенов: их синтетические актёры удаляются вместе с токеном
+Hooks.on("preDeleteToken", (token) => {
+  const actor = token.actor;
+  if (actor && !token.actorLink) deletingActors.add(actor.uuid);
+});
+Hooks.on("deleteToken", (token) => {
+  const actor = token.actor;
+  if (actor) setTimeout(() => deletingActors.delete(actor.uuid), 1000);
 });
