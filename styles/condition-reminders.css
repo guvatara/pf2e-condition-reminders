@@ -146,10 +146,15 @@
   align-items: center;
   gap: 8px;
   padding: 7px 10px;
-  cursor: pointer;
+  cursor: grab;
   user-select: none;
+  touch-action: none;
   font-weight: 700;
   font-size: 13px;
+}
+
+.pcr-panel-header:active {
+  cursor: grabbing;
 }
 
 .pcr-panel-header:hover {

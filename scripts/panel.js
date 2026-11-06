@@ -91,16 +91,8 @@ async function renderPanel() {
 }
 
 function bindPanelEvents() {
-  panelRoot.querySelector('[data-action="toggle"]')?.addEventListener("click", async () => {
-    collapsed = !collapsed;
-    panelRoot.classList.toggle("pcr-collapsed", collapsed);
-    panelRoot
-      .querySelector(".pcr-chevron")
-      ?.classList.replace(collapsed ? "fa-chevron-down" : "fa-chevron-up",
-                          collapsed ? "fa-chevron-up" : "fa-chevron-down");
-    panelRoot.querySelector(".pcr-panel-body")?.classList.toggle("pcr-hidden", collapsed);
-    await game.settings.set(MODULE_ID, "panelCollapsed", collapsed);
-  });
+  const header = panelRoot.querySelector('[data-action="toggle"]');
+  if (header) bindHeader(header);
 
   panelRoot.querySelectorAll('[data-action="remind"]').forEach((btn) => {
     btn.addEventListener("click", async (ev) => {
@@ -156,6 +148,78 @@ async function confirmRemoval(item) {
   });
 }
 
+/* ----------------------- перетаскивание панели -------------------------- */
+
+const DRAG_THRESHOLD = 5; // px: меньше — это клик (сворачивание), больше — перенос
+
+function applyPosition(x, y) {
+  const maxX = window.innerWidth - 80;
+  const maxY = window.innerHeight - 40;
+  x = Math.max(0, Math.min(x, maxX));
+  y = Math.max(0, Math.min(y, maxY));
+  panelRoot.style.left = `${x}px`;
+  panelRoot.style.top = `${y}px`;
+  panelRoot.style.right = "auto";
+}
+
+async function toggleCollapsed() {
+  collapsed = !collapsed;
+  panelRoot.classList.toggle("pcr-collapsed", collapsed);
+  panelRoot
+    .querySelector(".pcr-chevron")
+    ?.classList.replace(collapsed ? "fa-chevron-down" : "fa-chevron-up",
+                        collapsed ? "fa-chevron-up" : "fa-chevron-down");
+  panelRoot.querySelector(".pcr-panel-body")?.classList.toggle("pcr-hidden", collapsed);
+  await game.settings.set(MODULE_ID, "panelCollapsed", collapsed);
+}
+
+function bindHeader(header) {
+  let drag = null;
+
+  header.addEventListener("pointerdown", (ev) => {
+    if (ev.button !== 0) return;
+    const rect = panelRoot.getBoundingClientRect();
+    drag = { startX: ev.clientX, startY: ev.clientY, left: rect.left, top: rect.top, moved: false };
+    header.setPointerCapture(ev.pointerId);
+  });
+
+  header.addEventListener("pointermove", (ev) => {
+    if (!drag) return;
+    const dx = ev.clientX - drag.startX;
+    const dy = ev.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+    drag.moved = true;
+    applyPosition(drag.left + dx, drag.top + dy);
+  });
+
+  header.addEventListener("pointerup", async (ev) => {
+    if (!drag) return;
+    const wasDrag = drag.moved;
+    drag = null;
+    header.releasePointerCapture?.(ev.pointerId);
+
+    if (wasDrag) {
+      // Запоминаем новую позицию
+      await game.settings.set(MODULE_ID, "panelPosition", {
+        x: parseFloat(panelRoot.style.left),
+        y: parseFloat(panelRoot.style.top),
+      });
+      return;
+    }
+    await toggleCollapsed();
+  });
+
+  // Двойной клик — вернуть позицию по умолчанию (у трекера боя)
+  header.addEventListener("dblclick", async () => {
+    panelRoot.style.left = "";
+    panelRoot.style.top = "";
+    panelRoot.style.right = "";
+    await game.settings.set(MODULE_ID, "panelPosition", null);
+  });
+}
+
+/* ------------------------------------------------------------------------ */
+
 /** Перерисовать панель с небольшим дебаунсом (хуки могут идти пачкой). */
 export function schedulePanelUpdate() {
   if (!panelRoot) return;
@@ -173,6 +237,12 @@ export function initPanel() {
     panelRoot.id = "pcr-panel";
     panelRoot.classList.toggle("pcr-collapsed", collapsed);
     document.body.appendChild(panelRoot);
+
+    // Восстанавливаем сохранённую позицию (если панель перетаскивали)
+    const pos = game.settings.get(MODULE_ID, "panelPosition");
+    if (pos && typeof pos.x === "number" && typeof pos.y === "number") {
+      applyPosition(pos.x, pos.y);
+    }
 
     void renderPanel();
   });

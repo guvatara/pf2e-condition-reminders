@@ -58,6 +58,12 @@ function registerSettings() {
     type: Boolean,
     default: false,
   });
+  game.settings.register(MODULE_ID, "panelPosition", {
+    scope: "client",
+    config: false,
+    type: Object,
+    default: null,
+  });
 }
 
 /* ------------------------------------------------------------------------ */
