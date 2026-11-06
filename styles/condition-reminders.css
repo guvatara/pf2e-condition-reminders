@@ -1,0 +1,123 @@
+/* PF2e Condition Reminders */
+
+#pcr-root {
+  position: fixed;
+  top: 90px;
+  right: 12px;
+  width: 360px;
+  max-width: 45vw;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 70;
+  pointer-events: none;
+  font-family: var(--font-primary, "Signika", sans-serif);
+}
+
+.pcr-card {
+  pointer-events: auto;
+  background: rgba(24, 18, 14, 0.95);
+  border: 1px solid #6b5a44;
+  border-left: 5px solid #8a6d3b;
+  border-radius: 6px;
+  color: #efe6d5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  padding: 8px 10px;
+  animation: pcr-in 0.25s ease-out;
+}
+
+.pcr-card.pcr-applied   { border-left-color: #b3372f; }
+.pcr-card.pcr-increased { border-left-color: #d07b26; }
+.pcr-card.pcr-ended     { border-left-color: #3d8a4e; }
+
+.pcr-card.pcr-out {
+  animation: pcr-out 0.2s ease-in forwards;
+}
+
+.pcr-card > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pcr-card > header img {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.pcr-head-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.pcr-name {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.pcr-sub {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.pcr-close {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.pcr-close:hover {
+  opacity: 1;
+  box-shadow: none;
+}
+
+.pcr-body {
+  margin-top: 6px;
+  font-size: 12.5px;
+}
+
+.pcr-hint {
+  margin: 2px 0;
+  color: #ffd479;
+}
+
+.pcr-duration {
+  margin: 2px 0;
+  color: #9fd0ff;
+}
+
+.pcr-desc {
+  margin-top: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pcr-desc p {
+  margin: 0 0 4px;
+}
+
+@keyframes pcr-in {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+@keyframes pcr-out {
+  to { transform: translateX(30px); opacity: 0; }
+}

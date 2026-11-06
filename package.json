@@ -1,0 +1,14 @@
+{
+  "name": "pf2e-condition-reminders",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Foundry VTT module: popup reminder cards for PF2e conditions",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "node --check scripts/main.js && node --check scripts/build.mjs"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1"
+  }
+}
