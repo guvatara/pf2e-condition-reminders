@@ -3,6 +3,8 @@
 Модуль для [Foundry VTT](https://foundryvtt.com/) (v13+, проверен на v14) и системы **Pathfinder 2e**: показывает игроку всплывающую карточку-напоминание, когда на его персонажа накладывается состояние.
 
 ![Foundry v13+](https://img.shields.io/badge/foundry-v13%2B-orange)
+[![CI](https://github.com/guvatara/pf2e-condition-reminders/actions/workflows/ci.yml/badge.svg)](https://github.com/guvatara/pf2e-condition-reminders/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/guvatara/pf2e-condition-reminders)](https://github.com/guvatara/pf2e-condition-reminders/releases/latest)
 
 ## Возможности
 
