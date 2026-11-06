@@ -41,6 +41,7 @@ function registerSettings() {
   s("notifyIncrease", { type: Boolean, default: true });
   s("notifyEnd", { type: Boolean, default: true });
   s("panelEnabled", { type: Boolean, default: true, requiresReload: true });
+  s("confirmRemoval", { type: Boolean, default: true });
   s("autoDismiss", {
     type: Number,
     default: 15,

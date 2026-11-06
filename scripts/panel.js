@@ -106,8 +106,10 @@ function bindPanelEvents() {
       if (!item) return;
       if (!item.isOwner && !game.user.isGM) return;
 
-      const confirmed = await confirmRemoval(item);
-      if (!confirmed) return;
+      if (game.settings.get(MODULE_ID, "confirmRemoval")) {
+        const confirmed = await confirmRemoval(item);
+        if (!confirmed) return;
+      }
 
       // Панель обновится сама по хуку deleteItem
       await item.delete();

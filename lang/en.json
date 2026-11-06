@@ -9,6 +9,8 @@
   "PF2E-CR.settings.notifyEnd.hint": "Show a short notice when a condition is removed from a character you own.",
   "PF2E-CR.settings.panelEnabled.name": "Active conditions panel",
   "PF2E-CR.settings.panelEnabled.hint": "Show a pinned panel with the active conditions of your characters near the combat tracker. Requires a reload.",
+  "PF2E-CR.settings.confirmRemoval.name": "Confirm condition removal",
+  "PF2E-CR.settings.confirmRemoval.hint": "Ask for confirmation when removing a condition via the panel's ✕ button. Disable for faster bulk cleanup.",
   "PF2E-CR.settings.autoDismiss.name": "Auto-dismiss (seconds)",
   "PF2E-CR.settings.autoDismiss.hint": "Cards close automatically after this many seconds. Set to 0 to close them only manually.",
 
