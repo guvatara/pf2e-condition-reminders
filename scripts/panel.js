@@ -105,9 +105,41 @@ function bindPanelEvents() {
       const item = await fromUuid(btn.dataset.uuid);
       if (!item) return;
       if (!item.isOwner && !game.user.isGM) return;
+
+      const confirmed = await confirmRemoval(item);
+      if (!confirmed) return;
+
       // Панель обновится сама по хуку deleteItem
       await item.delete();
     });
+  });
+}
+
+/** Диалог подтверждения снятия состояния (DialogV2 с fallback на Dialog v1). */
+async function confirmRemoval(item) {
+  const content = game.i18n.format("PF2E-CR.panel.removeConfirm.content", {
+    name: item.name,
+    actor: item.parent?.name ?? "—",
+  });
+  const options = {
+    window: { title: game.i18n.localize("PF2E-CR.panel.removeConfirm.title") },
+    content: `<p>${content}</p>`,
+    yes: { label: game.i18n.localize("PF2E-CR.panel.removeConfirm.confirm") },
+    no: { label: game.i18n.localize("PF2E-CR.panel.removeConfirm.cancel") },
+    modal: false,
+    rejectClose: false,
+  };
+
+  const DialogV2 = foundry.applications?.api?.DialogV2;
+  if (DialogV2?.confirm) return DialogV2.confirm(options);
+
+  // Fallback для v12 и старее
+  return Dialog.confirm({
+    title: options.window.title,
+    content: options.content,
+    yes: () => true,
+    no: () => false,
+    defaultYes: false,
   });
 }
 

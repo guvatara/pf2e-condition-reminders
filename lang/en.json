@@ -24,6 +24,10 @@
   "PF2E-CR.panel.empty": "No active conditions",
   "PF2E-CR.panel.reminder": "Show reminder",
   "PF2E-CR.panel.remove": "Remove condition",
+  "PF2E-CR.panel.removeConfirm.title": "Remove condition",
+  "PF2E-CR.panel.removeConfirm.content": "Remove “{name}” from {actor}?",
+  "PF2E-CR.panel.removeConfirm.confirm": "Remove",
+  "PF2E-CR.panel.removeConfirm.cancel": "Cancel",
 
   "PF2E-CR.units.rounds": "rounds",
   "PF2E-CR.units.minutes": "minutes",

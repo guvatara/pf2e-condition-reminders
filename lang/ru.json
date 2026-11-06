@@ -24,6 +24,10 @@
   "PF2E-CR.panel.empty": "Нет активных состояний",
   "PF2E-CR.panel.reminder": "Показать напоминание",
   "PF2E-CR.panel.remove": "Снять состояние",
+  "PF2E-CR.panel.removeConfirm.title": "Снятие состояния",
+  "PF2E-CR.panel.removeConfirm.content": "Снять состояние «{name}» с персонажа {actor}?",
+  "PF2E-CR.panel.removeConfirm.confirm": "Снять",
+  "PF2E-CR.panel.removeConfirm.cancel": "Отмена",
 
   "PF2E-CR.units.rounds": "раундов",
   "PF2E-CR.units.minutes": "минут",

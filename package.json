@@ -1,6 +1,6 @@
 {
   "name": "pf2e-condition-reminders",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Foundry VTT module: popup reminder cards for PF2e conditions",
   "type": "module",
