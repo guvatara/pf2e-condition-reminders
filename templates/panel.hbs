@@ -13,7 +13,7 @@
     </div>
     <ul class="pcr-list">
       {{#each conditions}}
-      <li class="pcr-row" {{#if hint}}title="{{hint}}"{{/if}}>
+      <li class="pcr-row" {{#if hint}}title="{{hint}}"{{/if}}{{#if ../tokenId}} data-token="{{../tokenId}}"{{/if}}>
         <img src="{{img}}" alt="">
         <span class="pcr-row-name">{{name}}</span>
         {{#if hasValue}}<span class="pcr-badge">{{value}}</span>{{/if}}

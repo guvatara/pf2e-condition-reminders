@@ -47,6 +47,36 @@ function actorConditions(actor) {
   return actor.itemTypes?.condition ?? actor.items.filter((i) => i.type === "condition");
 }
 
+/** Токен актёра на активной сцене (для linked- и unlinked-токенов uuid актёра совпадает). */
+function tokenForActor(actor) {
+  return canvas?.tokens?.placeables.find((t) => t.actor?.uuid === actor.uuid) ?? null;
+}
+
+/** Подсветка токена при наведении на строку панели. */
+function setTokenHover(tokenId, on) {
+  const t = canvas?.tokens?.get(tokenId);
+  if (!t) return;
+  try {
+    if (on) {
+      t._onHoverIn({ type: "pointerover", shiftKey: false, altKey: false, ctrlKey: false, metaKey: false });
+    } else {
+      t._onHoverOut({});
+    }
+  } catch {
+    try {
+      t.hover = on;
+      t.renderFlags?.set?.({ refreshState: true });
+    } catch { /* подсветка — декоративная, ошибки игнорируем */ }
+  }
+}
+
+/** Двойной клик по строке — центрировать вид на токене. */
+function panToToken(tokenId) {
+  const t = canvas?.tokens?.get(tokenId);
+  if (!t) return;
+  canvas.animatePan({ x: t.center.x, y: t.center.y, duration: 250 });
+}
+
 function buildData() {
   const groups = relevantActors().map((actor) => {
     const conditions = actorConditions(actor)
@@ -64,7 +94,13 @@ function buildData() {
       })
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    return { actorId: actor.id, actorName: actor.name, img: actor.img, conditions };
+    return {
+      actorId: actor.id,
+      actorName: actor.name,
+      img: actor.img,
+      conditions,
+      tokenId: tokenForActor(actor)?.id ?? null,
+    };
   });
 
   const total = groups.reduce((n, g) => n + g.conditions.length, 0);
@@ -116,6 +152,17 @@ function bindPanelEvents() {
 
       // Панель обновится сама по хуку deleteItem
       await item.delete();
+    });
+  });
+
+  // Подсветка/центрирование токена для строк, у которых он есть на сцене
+  panelRoot.querySelectorAll(".pcr-row[data-token]").forEach((row) => {
+    const tokenId = row.dataset.token;
+    row.addEventListener("mouseenter", () => setTokenHover(tokenId, true));
+    row.addEventListener("mouseleave", () => setTokenHover(tokenId, false));
+    row.addEventListener("dblclick", (ev) => {
+      if (ev.target.closest("button")) return;
+      panToToken(tokenId);
     });
   });
 }

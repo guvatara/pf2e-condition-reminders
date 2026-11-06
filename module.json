@@ -2,7 +2,7 @@
   "id": "pf2e-condition-reminders",
   "title": "PF2e Condition Reminders",
   "description": "Всплывающие карточки-напоминания о состояниях PF2e: текст условия и когда оно спадает. Показываются владельцу персонажа (и Мастеру).",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "authors": [
     {
       "name": "Guvatara"
