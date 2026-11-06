@@ -7,15 +7,22 @@
   "PF2E-CR.settings.notifyIncrease.hint": "Показывать карточку повторно, когда валуированное состояние (frightened, drained и т.п.) усиливается. Уменьшения (например, снижение испуга в конце хода) карточку не вызывают.",
   "PF2E-CR.settings.notifyEnd.name": "Уведомлять о спадении состояния",
   "PF2E-CR.settings.notifyEnd.hint": "Показывать короткое уведомление, когда состояние снято с вашего персонажа.",
+  "PF2E-CR.settings.panelEnabled.name": "Панель активных состояний",
+  "PF2E-CR.settings.panelEnabled.hint": "Показывать закреплённую панель активных состояний ваших персонажей рядом с трекером боя. Требует перезагрузки.",
   "PF2E-CR.settings.autoDismiss.name": "Автозакрытие (секунды)",
   "PF2E-CR.settings.autoDismiss.hint": "Карточки закрываются автоматически через указанное число секунд. 0 — закрывать только вручную.",
 
   "PF2E-CR.kinds.applied": "Состояние получено",
   "PF2E-CR.kinds.increased": "Состояние усилено",
   "PF2E-CR.kinds.ended": "Состояние спало",
+  "PF2E-CR.kinds.reminder": "Напоминание о состоянии",
 
   "PF2E-CR.card.close": "Закрыть",
   "PF2E-CR.card.duration": "Длительность: {value} {unit}",
+
+  "PF2E-CR.panel.title": "Активные состояния",
+  "PF2E-CR.panel.empty": "Нет активных состояний",
+  "PF2E-CR.panel.reminder": "Показать напоминание",
 
   "PF2E-CR.units.rounds": "раундов",
   "PF2E-CR.units.minutes": "минут",

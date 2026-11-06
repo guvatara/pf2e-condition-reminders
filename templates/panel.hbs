@@ -1,0 +1,32 @@
+<header class="pcr-panel-header" data-action="toggle">
+  <i class="fa-solid fa-bell"></i>
+  <span class="pcr-panel-title">{{title}}</span>
+  <span class="pcr-panel-count">{{total}}</span>
+  <i class="fa-solid pcr-chevron {{#if collapsed}}fa-chevron-up{{else}}fa-chevron-down{{/if}}"></i>
+</header>
+<div class="pcr-panel-body {{#if collapsed}}pcr-hidden{{/if}}">
+  {{#each groups}}
+  <section class="pcr-group">
+    <div class="pcr-actor">
+      <img src="{{img}}" alt="">
+      <span>{{actorName}}</span>
+    </div>
+    <ul class="pcr-list">
+      {{#each conditions}}
+      <li class="pcr-row" {{#if hint}}title="{{hint}}"{{/if}}>
+        <img src="{{img}}" alt="">
+        <span class="pcr-row-name">{{name}}</span>
+        {{#if hasValue}}<span class="pcr-badge">{{value}}</span>{{/if}}
+        {{#if duration}}<span class="pcr-row-dur"><i class="fa-solid fa-clock"></i> {{duration}}</span>{{/if}}
+        <button type="button" class="pcr-remind" data-action="remind" data-uuid="{{uuid}}"
+                title="{{@root.reminderLabel}}">
+          <i class="fa-solid fa-circle-info"></i>
+        </button>
+      </li>
+      {{/each}}
+    </ul>
+  </section>
+  {{else}}
+  <p class="pcr-empty">{{emptyLabel}}</p>
+  {{/each}}
+</div>

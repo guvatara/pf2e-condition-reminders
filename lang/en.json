@@ -7,15 +7,22 @@
   "PF2E-CR.settings.notifyIncrease.hint": "Show the card again when a valued condition (frightened, drained, etc.) increases. Decreases (e.g. end-of-turn frightened ticks) never trigger a card.",
   "PF2E-CR.settings.notifyEnd.name": "Notify when a condition ends",
   "PF2E-CR.settings.notifyEnd.hint": "Show a short notice when a condition is removed from a character you own.",
+  "PF2E-CR.settings.panelEnabled.name": "Active conditions panel",
+  "PF2E-CR.settings.panelEnabled.hint": "Show a pinned panel with the active conditions of your characters near the combat tracker. Requires a reload.",
   "PF2E-CR.settings.autoDismiss.name": "Auto-dismiss (seconds)",
   "PF2E-CR.settings.autoDismiss.hint": "Cards close automatically after this many seconds. Set to 0 to close them only manually.",
 
   "PF2E-CR.kinds.applied": "Condition applied",
   "PF2E-CR.kinds.increased": "Condition worsened",
   "PF2E-CR.kinds.ended": "Condition ended",
+  "PF2E-CR.kinds.reminder": "Condition reminder",
 
   "PF2E-CR.card.close": "Dismiss",
   "PF2E-CR.card.duration": "Duration: {value} {unit}",
+
+  "PF2E-CR.panel.title": "Active Conditions",
+  "PF2E-CR.panel.empty": "No active conditions",
+  "PF2E-CR.panel.reminder": "Show reminder",
 
   "PF2E-CR.units.rounds": "rounds",
   "PF2E-CR.units.minutes": "minutes",
